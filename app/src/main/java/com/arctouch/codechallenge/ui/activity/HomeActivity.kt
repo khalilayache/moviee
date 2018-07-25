@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -69,5 +70,7 @@ class HomeActivity : AppCompatActivity(), ItemClick {
 
   override fun itemClick(movie: Movie) {
     toast.showToast(this, movie.title, Toast.LENGTH_SHORT)
+    startActivity(Intent(this,DetailsActivity::class.java))
+
   }
 }
