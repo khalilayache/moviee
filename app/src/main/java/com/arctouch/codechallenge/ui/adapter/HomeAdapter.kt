@@ -1,4 +1,4 @@
-package com.arctouch.codechallenge.home
+package com.arctouch.codechallenge.ui.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,7 +13,20 @@ import kotlinx.android.synthetic.main.movie_item.view.posterImageView
 import kotlinx.android.synthetic.main.movie_item.view.releaseDateTextView
 import kotlinx.android.synthetic.main.movie_item.view.titleTextView
 
-class HomeAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(private val movies: List<Movie>, private val clickListener: ItemClick) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
+    return ViewHolder(view)
+  }
+
+  override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    holder.bind(movies[position])
+    holder.itemView.setOnClickListener { clickListener.itemClick(movies[position]) }
+  }
+
+
+  override fun getItemCount() = movies.size
 
   class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -31,12 +44,7 @@ class HomeAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<HomeAd
     }
   }
 
-  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-    val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
-    return ViewHolder(view)
+  interface ItemClick {
+    fun itemClick(movie: Movie)
   }
-
-  override fun getItemCount() = movies.size
-
-  override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(movies[position])
 }
