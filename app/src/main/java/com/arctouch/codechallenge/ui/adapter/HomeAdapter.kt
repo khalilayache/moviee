@@ -13,7 +13,9 @@ import kotlinx.android.synthetic.main.movie_item.view.posterImageView
 import kotlinx.android.synthetic.main.movie_item.view.releaseDateTextView
 import kotlinx.android.synthetic.main.movie_item.view.titleTextView
 
-class HomeAdapter(private val movies: List<Movie>, private val clickListener: ItemClick) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(private val clickListener: ItemClick) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+
+  var movies: List<Movie> = emptyList()
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
@@ -24,7 +26,6 @@ class HomeAdapter(private val movies: List<Movie>, private val clickListener: It
     holder.bind(movies[position])
     holder.itemView.setOnClickListener { clickListener.itemClick(movies[position]) }
   }
-
 
   override fun getItemCount() = movies.size
 
