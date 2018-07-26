@@ -1,6 +1,5 @@
 package com.arctouch.codechallenge.ui.activity
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.arctouch.codechallenge.R
@@ -15,7 +14,7 @@ class DetailsActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_details)
     setSupportActionBar(toolbar)
-    toolbar_layout.setExpandedTitleColor(Color.TRANSPARENT)
+    toolbar_layout.title = "Movie Title"
 
     posterViewPager.adapter = PosterAdapter(this)
   }
