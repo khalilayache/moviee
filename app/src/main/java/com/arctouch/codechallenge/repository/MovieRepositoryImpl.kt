@@ -12,12 +12,12 @@ class MovieRepositoryImpl @Inject constructor(
     private val genreApi: GenreApi,
     private val moviesApi: MoviesApi
 ) : MovieRepository {
-  override fun getUpcomingMovies(apiKey: String, language: String, page: Long, region: String): Observable<UpcomingMoviesResponse> {
-    return moviesApi.upcoming(apiKey, language, page, region)
+  override fun getUpcomingMovies(apiKey: String, page: Long): Observable<UpcomingMoviesResponse> {
+    return moviesApi.upcoming(apiKey, page)
   }
 
-  override fun movieDetails(id: Long, apiKey: String, language: String): Observable<Movie> {
-    return moviesApi.details(id, apiKey, language)
+  override fun movieDetails(id: Long, apiKey: String): Observable<Movie> {
+    return moviesApi.details(id, apiKey)
   }
 
   override fun getGenreList(apiKey: String, language: String): Observable<GenreResponse> {

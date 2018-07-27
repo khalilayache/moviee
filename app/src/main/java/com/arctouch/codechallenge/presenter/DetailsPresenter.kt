@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.arctouch.codechallenge.api.Api
 import com.arctouch.codechallenge.contract.DetailsContract
 import com.arctouch.codechallenge.repository.MovieRepository
+import com.arctouch.codechallenge.util.Constants.DEFAULT_POSTER_URL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class DetailsPresenter @Inject constructor(
   private fun loadMovieDetails() {
 
     movieId?.let {
-      movieRepository.movieDetails(it.toLong(), Api.API_KEY, Api.DEFAULT_LANGUAGE)
+      movieRepository.movieDetails(it.toLong(), Api.API_KEY)
           .doOnSubscribe {
             view.showLoading()
             view.hideMainLayout()
@@ -52,6 +53,10 @@ class DetailsPresenter @Inject constructor(
             it.backdropPath?.let {
               posterArrayList.add(it)
             }
+            if(posterArrayList.isEmpty()){
+              posterArrayList.add(DEFAULT_POSTER_URL)
+            }
+
             view.setMovieInfos(it, posterArrayList)
           }
     }

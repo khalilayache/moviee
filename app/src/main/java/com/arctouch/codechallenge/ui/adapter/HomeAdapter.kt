@@ -40,7 +40,7 @@ class HomeAdapter(private val clickListener: ItemClick) : RecyclerView.Adapter<H
 
       Picasso.get()
           .load(movie.posterPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })
-          .placeholder(R.drawable.ic_image_placeholder)
+          .placeholder(R.drawable.image_not_available_placeholder)
           .into(itemView.posterImageView)
     }
   }

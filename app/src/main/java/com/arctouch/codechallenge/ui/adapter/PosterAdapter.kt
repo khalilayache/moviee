@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.arctouch.codechallenge.R
-import com.arctouch.codechallenge.model.Movie
+import com.arctouch.codechallenge.util.Constants.DEFAULT_POSTER_URL
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder
 import com.squareup.picasso.Picasso
 
@@ -33,10 +33,15 @@ class PosterAdapter(context: Context) : PagerAdapter() {
     val movieImageUrlBuilder = MovieImageUrlBuilder()
     val imageView = itemView.findViewById(R.id.posterImageView) as ImageView
 
+    var url = posterArrayList[position]
+    if (url != DEFAULT_POSTER_URL)
+      url = movieImageUrlBuilder.buildBackdropUrl(url)
+
     Picasso.get()
-        .load(movieImageUrlBuilder.buildBackdropUrl(posterArrayList[position]))
+        .load(url)
         .placeholder(R.drawable.ic_image_placeholder)
         .into(imageView)
+
 
     container.addView(itemView)
     return itemView
@@ -44,9 +49,5 @@ class PosterAdapter(context: Context) : PagerAdapter() {
 
   override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
     container.removeView(`object` as ConstraintLayout)
-  }
-
-  interface ItemClick {
-    fun itemClick(movie: Movie)
   }
 }

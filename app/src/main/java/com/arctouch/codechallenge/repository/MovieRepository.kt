@@ -6,8 +6,8 @@ import com.arctouch.codechallenge.model.UpcomingMoviesResponse
 import io.reactivex.Observable
 
 interface MovieRepository {
-  fun getUpcomingMovies(apiKey: String,language: String, page: Long, region: String) : Observable<UpcomingMoviesResponse>
-  fun movieDetails(id: Long, apiKey: String, language: String): Observable<Movie>
+  fun getUpcomingMovies(apiKey: String, page: Long) : Observable<UpcomingMoviesResponse>
+  fun movieDetails(id: Long, apiKey: String): Observable<Movie>
   fun getGenreList(apiKey: String, language: String) : Observable<GenreResponse>
 
 }

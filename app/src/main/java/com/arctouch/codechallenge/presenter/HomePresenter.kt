@@ -66,7 +66,7 @@ class HomePresenter @Inject constructor(
   }
 
   private fun getMovies() {
-    movieRepository.getUpcomingMovies(Api.API_KEY, Api.DEFAULT_LANGUAGE, page, Api.DEFAULT_REGION)
+    movieRepository.getUpcomingMovies(Api.API_KEY, page)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .doOnError {
@@ -80,17 +80,10 @@ class HomePresenter @Inject constructor(
             movie.copy(genres = genresList?.filter { movie.genreIds?.contains(it.id) == true })
           }
 
-          val moviesListTreated: ArrayList<Movie> = ArrayList()
-
-          moviesListWithGender.forEach {
-            if (!it.posterPath.isNullOrEmpty()) {
-              moviesListTreated.add(it)
-            }
-          }
           if (moviesList == null) {
-            moviesList = moviesListTreated
+            moviesList = moviesListWithGender as MutableList<Movie>
           } else {
-            moviesList?.addAll(moviesListTreated)
+            moviesList?.addAll(moviesListWithGender)
           }
           moviesList?.let { updateMovieList(it) }
         }

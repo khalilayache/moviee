@@ -12,15 +12,12 @@ interface MoviesApi {
   @GET("movie/{id}")
   fun details(
       @Path("id") id: Long,
-      @Query("api_key") apiKey: String,
-      @Query("language") language: String
+      @Query("api_key") apiKey: String
   ): Observable<Movie>
 
   @GET("movie/upcoming")
   fun upcoming(
       @Query("api_key") apiKey: String,
-      @Query("language") language: String,
-      @Query("page") page: Long,
-      @Query("region") region: String
+      @Query("page") page: Long
   ): Observable<UpcomingMoviesResponse>
 }

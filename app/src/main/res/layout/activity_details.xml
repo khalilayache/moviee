@@ -21,8 +21,6 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:toolbarId="@+id/toolbar"
-            app:expandedTitleMarginBottom="@dimen/margin_expanded_toolbar"
-            app:expandedTitleMarginStart="@dimen/margin_expanded_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="?attr/colorPrimary">
 
