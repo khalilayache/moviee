@@ -80,10 +80,17 @@ class HomePresenter @Inject constructor(
             movie.copy(genres = genresList?.filter { movie.genreIds?.contains(it.id) == true })
           }
 
+          val moviesListTreated: ArrayList<Movie> = ArrayList()
+
+          moviesListWithGender.forEach {
+            if (!it.posterPath.isNullOrEmpty()) {
+              moviesListTreated.add(it)
+            }
+          }
           if (moviesList == null) {
-            moviesList = moviesListWithGender as MutableList<Movie>
+            moviesList = moviesListTreated
           } else {
-            moviesList?.addAll(moviesListWithGender)
+            moviesList?.addAll(moviesListTreated)
           }
           moviesList?.let { updateMovieList(it) }
         }
