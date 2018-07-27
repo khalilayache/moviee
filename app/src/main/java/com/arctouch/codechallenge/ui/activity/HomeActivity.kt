@@ -1,6 +1,5 @@
 package com.arctouch.codechallenge.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -31,7 +30,7 @@ class HomeActivity : AppCompatActivity(), ItemClick, HomeContract.View {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.home_activity)
     initDagger()
-    initView()
+    initView(savedInstanceState)
     initListeners()
   }
 
@@ -40,7 +39,7 @@ class HomeActivity : AppCompatActivity(), ItemClick, HomeContract.View {
   }
 
   override fun itemClick(movie: Movie) {
-    startActivity(Intent(this, DetailsActivity::class.java))
+    startActivity(DetailsActivity.createIntentWithMovie(this@HomeActivity,movie.id))
   }
 
   override fun showLoading() {
@@ -51,23 +50,34 @@ class HomeActivity : AppCompatActivity(), ItemClick, HomeContract.View {
     progressBar.gone()
   }
 
+  override fun showRecycler() {
+    recyclerView.visible()
+  }
+
+  override fun hideRecycler() {
+    recyclerView.gone()
+  }
+
+  override fun showErrorState() {
+    errorStateLayout.visible()
+    progressBar.gone()
+  }
+
+  override fun hideErrorState() {
+    errorStateLayout.gone()
+  }
+
   override fun updateMovieList(movieList: List<Movie>) {
     recyclerView.visible()
     homeAdapter.movies = movieList
     homeAdapter.notifyDataSetChanged()
   }
 
-  override fun showErrorState() {
-    errorStateLayout.visible()
-    recyclerView.gone()
-    progressBar.gone()
-  }
-
-  private fun initView() {
+  private fun initView(savedInstanceState: Bundle?) {
     initMovieList()
 
     presenter.bindView(this)
-    presenter.onCreate()
+    presenter.onCreate(savedInstanceState, intent.extras)
   }
 
   private fun initMovieList() {

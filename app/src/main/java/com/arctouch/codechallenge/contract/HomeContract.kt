@@ -19,6 +19,10 @@ object HomeContract {
     fun updateMovieList(movieList: List<Movie>)
 
     fun showErrorState()
+    fun hideErrorState()
+
+    fun showRecycler()
+    fun hideRecycler()
   }
 
 }

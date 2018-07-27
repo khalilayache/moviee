@@ -1,5 +1,6 @@
 package com.arctouch.codechallenge.presenter
 
+import android.os.Bundle
 import com.arctouch.codechallenge.api.Api
 import com.arctouch.codechallenge.contract.HomeContract
 import com.arctouch.codechallenge.model.Genre
@@ -19,7 +20,7 @@ class HomePresenter @Inject constructor(
 
   private var page = 1L
 
-  override fun onCreate() {
+  override fun onCreate(savedInstanceState: Bundle?, extras: Bundle?) {
     getMoviesInfo()
   }
 
@@ -42,10 +43,18 @@ class HomePresenter @Inject constructor(
 
     if (genresList == null) {
       movieRepository.getGenreList(Api.API_KEY, Api.DEFAULT_LANGUAGE)
-          .doOnSubscribe { view.showLoading() }
+          .doOnSubscribe {
+            view.showLoading()
+            view.hideRecycler()
+            view.hideErrorState()
+          }
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .doOnError { view.showErrorState() }
+          .doOnError {
+            view.showErrorState()
+            view.hideLoading()
+            view.hideRecycler()
+          }
           .doAfterTerminate {
             getMovies()
           }
@@ -60,6 +69,11 @@ class HomePresenter @Inject constructor(
     movieRepository.getUpcomingMovies(Api.API_KEY, Api.DEFAULT_LANGUAGE, page, Api.DEFAULT_REGION)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+        .doOnError {
+          view.showErrorState()
+          view.hideLoading()
+          view.hideRecycler()
+        }
         .doAfterTerminate { view.hideLoading() }
         .subscribe {
           val moviesListWithGender = it.results.map { movie ->
@@ -78,8 +92,5 @@ class HomePresenter @Inject constructor(
   private fun updateMovieList(moviesList: List<Movie>) {
     view.updateMovieList(moviesList)
   }
-
-
-
 
 }

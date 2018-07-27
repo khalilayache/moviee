@@ -9,16 +9,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.arctouch.codechallenge.R
 import com.arctouch.codechallenge.model.Movie
+import com.arctouch.codechallenge.util.MovieImageUrlBuilder
+import com.squareup.picasso.Picasso
 
 
 class PosterAdapter(context: Context) : PagerAdapter() {
 
-  private val resources = arrayOf(R.drawable.ant1, R.drawable.ant3)
+  var posterArrayList: List<String> = emptyList()
 
-  private var layoutInflater : LayoutInflater = LayoutInflater.from(context)
+  private var layoutInflater: LayoutInflater = LayoutInflater.from(context)
 
   override fun getCount(): Int {
-    return resources.size
+    return posterArrayList.size
   }
 
   override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -28,11 +30,15 @@ class PosterAdapter(context: Context) : PagerAdapter() {
   override fun instantiateItem(container: ViewGroup, position: Int): Any {
     val itemView = layoutInflater.inflate(R.layout.poster_item, container, false)
 
+    val movieImageUrlBuilder = MovieImageUrlBuilder()
     val imageView = itemView.findViewById(R.id.posterImageView) as ImageView
-    imageView.setImageResource(resources[position])
+
+    Picasso.get()
+        .load(movieImageUrlBuilder.buildBackdropUrl(posterArrayList[position]))
+        .placeholder(R.drawable.ic_image_placeholder)
+        .into(imageView)
 
     container.addView(itemView)
-
     return itemView
   }
 
